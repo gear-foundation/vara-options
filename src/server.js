@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors());
 
-app.get('/burned', async (req, res) => {
+app.get('/api/burned', async (req, res) => {
   tokensSentFromInflationPool()
     .then((result) => res.json(result))
     .catch((err) => {
@@ -17,7 +17,7 @@ app.get('/burned', async (req, res) => {
     });
 });
 
-app.get('/total', async (req, res) => {
+app.get('/api/total', async (req, res) => {
   totalSupply()
     .then((result) => res.json(result))
     .catch((err) => {
@@ -26,7 +26,7 @@ app.get('/total', async (req, res) => {
     });
 });
 
-app.get('/circulation', async (req, res) => {
+app.get('/api/circulating-supply', async (req, res) => {
   circulationSupply()
     .then((result) => res.json(result))
     .catch((err) => {
