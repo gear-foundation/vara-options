@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors());
 
-app.get('/burnt', async (req, res) => {
+app.get('/burned', async (req, res) => {
   tokensSentFromInflationPool()
     .then((result) => res.json(result))
     .catch((err) => {

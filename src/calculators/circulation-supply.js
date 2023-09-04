@@ -20,6 +20,7 @@ async function getKeys(prefix) {
   return result;
 }
 
+// Get all vested tokens from the chain
 async function vestingTotal() {
   const prefix = api.query.vesting.vesting.keyPrefix();
   const keys = await getKeys(prefix);
@@ -40,10 +41,13 @@ async function vestingTotal() {
   return Number(totalVesting);
 }
 
+// Get all pool addresses
+// Each pool additionally has 10 derived accounts (indexes from 1 to 10)
 function getPoolAddresses(poolAddr) {
   return [poolAddr, ...deriveAddr(poolAddr)];
 }
 
+// Circulation Supply = Total Supply - (Vesting + Pools);
 export async function circulationSupply() {
   const addresses = [
     ...getPoolAddresses(MARKETING_POOL),
