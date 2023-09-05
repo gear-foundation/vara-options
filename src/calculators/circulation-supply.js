@@ -4,7 +4,7 @@ import {
   DEVELOPER_PROJECTS_GRANTS_POOL,
   FOUNDATION_AND_ECOSYSTEM_DEVELOPMENT_POOL,
   INFLATION_OFFSETTING_POOL,
-  MARKETING_POOL,
+  EDUCATION_BOOTCAMP_PR_EVENT_POOL,
   PROTOCOL_DEVELOPMENT_POOL,
   PROTOCOL_RESERVE_POOL,
   VALIDATOR_INCENTIVES_POOL,
@@ -50,7 +50,7 @@ function getPoolAddresses(poolAddr) {
 // Circulation Supply = Total Supply - (Vesting + Pools);
 export async function circulationSupply() {
   const addresses = [
-    ...getPoolAddresses(MARKETING_POOL),
+    ...getPoolAddresses(EDUCATION_BOOTCAMP_PR_EVENT_POOL),
     ...getPoolAddresses(PROTOCOL_RESERVE_POOL),
     ...getPoolAddresses(FOUNDATION_AND_ECOSYSTEM_DEVELOPMENT_POOL),
     ...getPoolAddresses(PROTOCOL_DEVELOPMENT_POOL),
@@ -61,6 +61,8 @@ export async function circulationSupply() {
   ];
 
   const [vesting, pools, supply] = await Promise.all([vestingTotal(), getBalances(addresses), totalSupply()]);
+  console.log(addresses);
+  console.log(pools);
 
   const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting;
 
