@@ -6,5 +6,21 @@ export const VALIDATOR_INCENTIVES_POOL = 'kGgbZY5n2X2jp4bkvgLR4uYUjUQhTpJ6nYJKmq
 export const DEVELOPER_PROJECTS_GRANTS_POOL = 'kGi45XEebnoQcMwwxdXQgsRPFiGwzLyir7VF38wtSf1C5RERV';
 export const AIRDROP_POOL = 'kGgsjqmcmHHUcaZCJKQceiMZhzdYzBy9UxEdsJDFBHafLMzb9';
 export const INFLATION_OFFSETTING_POOL = 'kGi1Ui7VXBFmPdogf86Zdy71q51YLBnWt6n8iuGAAsaiCW5GG';
+export const MARKET_POOL = 'kGmHNw32YQrY9SFArgjFKgrgysZN13Th29ZPoPT6hJ7uhhtrs';
 
 export const INITIAL_BALANCE_INFLATION_OFFSETTING_POOL = 1_000_000_000;
+
+// Custody accounts
+
+export const CUSTODY = [
+    kGhBnmPPy7yyyDG7ixg4JVsuMmGTt7wsKYstmUhRB4RkK1ZRq,
+    kGkfMUpUwQ99tP3Swu1zen5gU44Yf5NjK1xSsnwi5CRaik8Kz,
+    kGjj96gJyxuPpG2BekrcaAMBHwfHrArzv9a2urP5GfpLoAoqu,
+    kGiGZ5Sa6hrxiZxZ8xD95thnnkdtfK9yy54NB7Ad4oF8DzyLp,
+    kGjd29r3qa9rnUQSGYHh3TiFqu8tYv6FX5am6nQ5pMRirwm7d,
+    kGhKd4t4oSpH8KpiTYcx1NSVvvRf2bSz16z3yVaYfNYfdcYba,
+    kGgvxgM2sJF7fWUze3fNWBWzy5momsyna7XF8MFzAWPhj2WpU,
+    kGi7MJ14UdQZx9bqXZ41NC5j21iBNNCTM2wgdMMKAHkCjtFeG,
+    kGga7DgxzLLTqn9WjtEZW5pkxYVnBPS4Rt6xK3Adqs1iKN42z,
+    kGiVY7G1mJkqaAjKzLnRmwCy5GcvuGQvG5mUtojhVHdLfBd1P,
+]
