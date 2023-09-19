@@ -1,4 +1,4 @@
-import { api, deriveAddr, getBalances } from '../node.js';
+import { api, getBalances } from '../node.js';
 import {
   AIRDROP_POOL,
   DEVELOPER_PROJECTS_GRANTS_POOL,
@@ -8,8 +8,12 @@ import {
   PROTOCOL_DEVELOPMENT_POOL,
   PROTOCOL_RESERVE_POOL,
   VALIDATOR_INCENTIVES_POOL,
+  MARKET_POOL,
+  CUSTODY,
 } from '../consts.js';
 import { totalSupply } from './total-supply.js';
+
+const STAKING_HEX = '0x7374616b696e6720';
 
 async function getKeys(prefix) {
   const result = await api.rpc.state.getKeysPaged(prefix, 1000, prefix);
@@ -21,7 +25,7 @@ async function getKeys(prefix) {
 }
 
 // Get all vested tokens from the chain
-async function vestingTotal() {
+export async function totalVesting() {
   const prefix = api.query.vesting.vesting.keyPrefix();
   const keys = await getKeys(prefix);
 
@@ -41,30 +45,53 @@ async function vestingTotal() {
   return Number(totalVesting);
 }
 
+export async function totalStaking() {
+  const prefix = api.query.balances.locks.keyPrefix();
+  const keys = await getKeys(prefix);
+  const allLocks = await api.rpc.state.queryStorageAt(keys);
+
+  let total = BigInt(0);
+
+  for (const lock of allLocks) {
+    const withType = api.registry.createType('PalletBalancesBalanceLock', lock.toU8a().slice(2));
+
+    if (withType.id.toHex() == STAKING_HEX) {
+      total += withType.amount.toBigInt();
+    }
+  }
+  const totalStaking = total / BigInt(10 ** 12);
+  return Number(totalStaking);
+}
+
 // Get all pool addresses
 // Each pool additionally has 10 derived accounts (indexes from 1 to 10)
-function getPoolAddresses(poolAddr) {
-  return [poolAddr, ...deriveAddr(poolAddr)];
-}
+// function getPoolAddresses(poolAddr) {
+//   return [poolAddr, ...deriveAddr(poolAddr)];
+// }
 
 // Circulation Supply = Total Supply - (Vesting + Pools);
 export async function circulationSupply() {
   const addresses = [
-    ...getPoolAddresses(EDUCATION_BOOTCAMP_PR_EVENT_POOL),
-    ...getPoolAddresses(PROTOCOL_RESERVE_POOL),
-    ...getPoolAddresses(FOUNDATION_AND_ECOSYSTEM_DEVELOPMENT_POOL),
-    ...getPoolAddresses(PROTOCOL_DEVELOPMENT_POOL),
-    ...getPoolAddresses(VALIDATOR_INCENTIVES_POOL),
-    ...getPoolAddresses(DEVELOPER_PROJECTS_GRANTS_POOL),
-    ...getPoolAddresses(AIRDROP_POOL),
+    EDUCATION_BOOTCAMP_PR_EVENT_POOL,
+    PROTOCOL_RESERVE_POOL,
+    FOUNDATION_AND_ECOSYSTEM_DEVELOPMENT_POOL,
+    PROTOCOL_DEVELOPMENT_POOL,
+    VALIDATOR_INCENTIVES_POOL,
+    DEVELOPER_PROJECTS_GRANTS_POOL,
+    AIRDROP_POOL,
     INFLATION_OFFSETTING_POOL,
+    MARKET_POOL,
+    ...CUSTODY,
   ];
 
-  const [vesting, pools, supply] = await Promise.all([vestingTotal(), getBalances(addresses), totalSupply()]);
-  console.log(addresses);
-  console.log(pools);
+  const [supply, vesting, staking, pools] = await Promise.all([
+    totalSupply(),
+    totalVesting(),
+    totalStaking(),
+    getBalances(addresses),
+  ]);
 
-  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting;
+  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + staking;
 
   return supply - total;
 }
