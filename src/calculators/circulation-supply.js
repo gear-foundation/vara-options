@@ -3,13 +3,15 @@ import {
   AIRDROP_POOL,
   DEVELOPER_PROJECTS_GRANTS_POOL,
   FOUNDATION_AND_ECOSYSTEM_DEVELOPMENT_POOL,
-  INFLATION_OFFSETTING_POOL,
+  INITIAL_BALANCE_INFLATION_OFFSETTING_POOL,
   EDUCATION_BOOTCAMP_PR_EVENT_POOL,
   PROTOCOL_DEVELOPMENT_POOL,
   PROTOCOL_RESERVE_POOL,
   VALIDATOR_INCENTIVES_POOL,
   MARKET_POOL,
   CUSTODY,
+  AIRDROP_3RD_PARTY_1,
+  DECIMALS,
 } from '../consts.js';
 import { totalSupply } from './total-supply.js';
 
@@ -41,7 +43,7 @@ export async function totalVesting() {
     const locked = withType.unwrap()[0].locked.toBigInt();
     result += locked;
   }
-  const totalVesting = result / BigInt(10 ** 12);
+  const totalVesting = result / BigInt(10 ** DECIMALS);
   return Number(totalVesting);
 }
 
@@ -59,7 +61,7 @@ export async function totalStaking() {
       total += withType.amount.toBigInt();
     }
   }
-  const totalStaking = total / BigInt(10 ** 12);
+  const totalStaking = total / BigInt(10 ** DECIMALS);
   return Number(totalStaking);
 }
 
@@ -69,7 +71,7 @@ export async function totalStaking() {
 //   return [poolAddr, ...deriveAddr(poolAddr)];
 // }
 
-// Circulation Supply = Total Supply - (Vesting + Pools);
+// Circulation Supply = Total Supply - (Vesting + Staking + Pools);
 export async function circulationSupply() {
   const addresses = [
     EDUCATION_BOOTCAMP_PR_EVENT_POOL,
@@ -79,10 +81,11 @@ export async function circulationSupply() {
     VALIDATOR_INCENTIVES_POOL,
     DEVELOPER_PROJECTS_GRANTS_POOL,
     AIRDROP_POOL,
-    INFLATION_OFFSETTING_POOL,
     MARKET_POOL,
+    AIRDROP_3RD_PARTY_1,
     ...CUSTODY,
   ];
+  // INFLATION_OFFSETTING_POOL;
 
   const [supply, vesting, staking, pools] = await Promise.all([
     totalSupply(),
@@ -91,7 +94,11 @@ export async function circulationSupply() {
     getBalances(addresses),
   ]);
 
-  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + staking;
+  const total =
+    pools.reduce((accumulator, current) => accumulator + current, 0) +
+    vesting +
+    staking +
+    INITIAL_BALANCE_INFLATION_OFFSETTING_POOL;
 
   return supply - total;
 }
