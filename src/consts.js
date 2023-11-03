@@ -10,6 +10,8 @@ export const MARKET_POOL = 'kGmHNw32YQrY9SFArgjFKgrgysZN13Th29ZPoPT6hJ7uhhtrs';
 
 export const INITIAL_BALANCE_INFLATION_OFFSETTING_POOL = 1_000_000_000;
 
+export const AIRDROP_3RD_PARTY_1 = 'kGfgqjRznfuto8Q7oxAine8ZFjDCkpcYB6XVcNCw5QHw1z6xd';
+
 // Custody accounts
 
 export const CUSTODY = [
@@ -24,3 +26,5 @@ export const CUSTODY = [
   'kGga7DgxzLLTqn9WjtEZW5pkxYVnBPS4Rt6xK3Adqs1iKN42z',
   'kGiVY7G1mJkqaAjKzLnRmwCy5GcvuGQvG5mUtojhVHdLfBd1P',
 ];
+
+export const DECIMALS = 12;
