@@ -3,7 +3,7 @@ import {
   AIRDROP_POOL,
   DEVELOPER_PROJECTS_GRANTS_POOL,
   FOUNDATION_AND_ECOSYSTEM_DEVELOPMENT_POOL,
-  INITIAL_BALANCE_INFLATION_OFFSETTING_POOL,
+  INFLATION_OFFSETTING_POOL,
   EDUCATION_BOOTCAMP_PR_EVENT_POOL,
   PROTOCOL_DEVELOPMENT_POOL,
   PROTOCOL_RESERVE_POOL,
@@ -83,9 +83,9 @@ export async function circulationSupply() {
     AIRDROP_POOL,
     MARKET_POOL,
     AIRDROP_3RD_PARTY_1,
+    INFLATION_OFFSETTING_POOL,
     ...CUSTODY,
   ];
-  // INFLATION_OFFSETTING_POOL;
 
   const [supply, vesting, staking, pools] = await Promise.all([
     totalSupply(),
@@ -94,11 +94,7 @@ export async function circulationSupply() {
     getBalances(addresses),
   ]);
 
-  const total =
-    pools.reduce((accumulator, current) => accumulator + current, 0) +
-    vesting +
-    staking +
-    INITIAL_BALANCE_INFLATION_OFFSETTING_POOL;
+  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + staking;
 
   return supply - total;
 }
