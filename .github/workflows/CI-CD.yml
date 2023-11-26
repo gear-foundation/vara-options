@@ -44,7 +44,7 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
   deploy-k8s:
-    needs: [ build-frontend-image, wait-previous-run]
+    needs: [ build-frontend-image]
     runs-on: ubuntu-latest
 
     steps:
