@@ -27,4 +27,6 @@ export const CUSTODY = [
   'kGiVY7G1mJkqaAjKzLnRmwCy5GcvuGQvG5mUtojhVHdLfBd1P',
 ];
 
+export const SENT_TO_CB = 309_999_000;
+
 export const DECIMALS = 12;
