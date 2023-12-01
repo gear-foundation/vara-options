@@ -18,10 +18,10 @@ import { totalSupply } from './total-supply.js';
 
 const STAKING_HEX = '0x7374616b696e6720';
 
-async function getKeys(prefix) {
-  const result = await api.rpc.state.getKeysPaged(prefix, 1000, prefix);
+async function getKeys(prefix, startKey = null) {
+  const result = await api.rpc.state.getKeysPaged(prefix, 1000, startKey);
   if (result.length === 1000) {
-    const moreKeys = await getKeys(prefix);
+    const moreKeys = await getKeys(prefix, result[result.length - 1]);
     result.push(...moreKeys);
   }
   return result;

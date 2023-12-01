@@ -22,7 +22,9 @@ export async function getBalance(addr) {
 
 export async function getBalances(addresses) {
   const accounts = await api.queryMulti(addresses.map((addr) => [api.query.system.account, addr]));
-  return accounts.map(({ data: { free } }) => Number(free.toBigInt() / BigInt(10 ** 12)));
+  const result = accounts.map(({ data: { free } }) => Number(free.toBigInt() / BigInt(10 ** 12)));
+
+  return result;
 }
 
 export const deriveAddr = (addr) => {
