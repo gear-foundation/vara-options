@@ -12,7 +12,6 @@ import {
   CUSTODY,
   AIRDROP_3RD_PARTY_1,
   DECIMALS,
-  SENT_TO_CB,
   CB_COLD_WALLETS,
   TYAN,
 } from '../consts.js';
