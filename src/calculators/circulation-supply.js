@@ -13,6 +13,8 @@ import {
   AIRDROP_3RD_PARTY_1,
   DECIMALS,
   SENT_TO_CB,
+  CB_COLD_WALLETS,
+  TYAN,
 } from '../consts.js';
 import { totalSupply } from './total-supply.js';
 
@@ -85,7 +87,9 @@ export async function circulationSupply() {
     MARKET_POOL,
     AIRDROP_3RD_PARTY_1,
     INFLATION_OFFSETTING_POOL,
+    TYAN,
     ...CUSTODY,
+    ...CB_COLD_WALLETS,
   ];
 
   const [supply, vesting, staking, pools] = await Promise.all([
@@ -95,7 +99,7 @@ export async function circulationSupply() {
     getBalances(addresses),
   ]);
 
-  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + staking + SENT_TO_CB;
+  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + staking;
 
   return supply - total;
 }

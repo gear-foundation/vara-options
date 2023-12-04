@@ -27,6 +27,15 @@ export const CUSTODY = [
   'kGiVY7G1mJkqaAjKzLnRmwCy5GcvuGQvG5mUtojhVHdLfBd1P',
 ];
 
+export const CB_COLD_WALLETS = [
+  'kGjM8es47bQ3i73sMBfQhZte3xE1aD1Syvsfu3rXkPC3kAKZv',
+  'kGj1E8yFzVVKQxkP65ExcZttnYRCGoGyGzgEUopthjRhEWeum',
+  'kGghFAwYWw4MH9PXzrkpHctLQTfBNcCwk6Pu4RQ7ckgUFzLcq',
+  'kGhzLBaaHM66zJrFPqCrA4MJc2jhiKKdndB5cNCeGVpY7wpG2',
+];
+
+export const TYAN = 'kGgYvzyAgbd9j7QvLQ3iEyuWEJYZroTxSraQD8d4NCSTdVX7i';
+
 export const SENT_TO_CB = 309_999_000;
 
 export const DECIMALS = 12;
