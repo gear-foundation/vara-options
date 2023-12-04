@@ -36,6 +36,4 @@ export const CB_COLD_WALLETS = [
 
 export const TYAN = 'kGgYvzyAgbd9j7QvLQ3iEyuWEJYZroTxSraQD8d4NCSTdVX7i';
 
-export const SENT_TO_CB = 309_999_000;
-
 export const DECIMALS = 12;
