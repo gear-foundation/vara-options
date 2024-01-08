@@ -8,6 +8,7 @@ import {
   totalStaking,
   totalSupply,
   totalVesting,
+  stakingRoi
 } from './calculators/index.js';
 
 const app = express();
@@ -52,6 +53,15 @@ app.get('/api/total-vesting', async (req, res) => {
 
 app.get('/api/circulating-supply', async (req, res) => {
   circulationSupply()
+    .then((result) => res.json(result))
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+app.get('/api/roi', async (req, res) => {
+  stakingRoi()
     .then((result) => res.json(result))
     .catch((err) => {
       console.error(err);
