@@ -6,11 +6,13 @@ import { DECIMALS } from '../consts.js';
 // era_payout = total_issuance * inflation_per_era
 
 export async function stakingRoi() {
-    const lastEra = (await api.query.staking.currentEra()).toHuman() - 1;
+    const lastEra = (await api.query.staking.currentEra()).toHuman();
 
-    const inflationPerEra = (await api.query.staking.erasValidatorReward(lastEra)).toJSON();
-    const totalStaked = await api.query.staking.erasTotalStake(lastEra);
+    const inflationPerEra = (await api.query.staking.erasValidatorReward(lastEra - 2)).toJSON();
+    const totalStaked = await api.query.staking.erasTotalStake(lastEra - 2);
     const totalIssuance = await totalSupply();
 
-    return (totalIssuance * (inflationPerEra / 10 ** DECIMALS)) / (totalStaked / 10 ** DECIMALS) * 730;
+    const roi = (totalIssuance * (inflationPerEra / 10 ** DECIMALS)) / (totalStaked / 10 ** DECIMALS) * 730;
+
+    return (roi / 10 ** 8)
 }
