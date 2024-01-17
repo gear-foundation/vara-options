@@ -34,6 +34,8 @@ export const CB_COLD_WALLETS = [
   'kGhzLBaaHM66zJrFPqCrA4MJc2jhiKKdndB5cNCeGVpY7wpG2',
 ];
 
+export const CB_REWARDS = 'kGgH6TyfMQmjVLoDxTXUEjnYoa63eBwLK9D8XM2PtZ8tr6KND';
+
 export const TYAN = 'kGgYvzyAgbd9j7QvLQ3iEyuWEJYZroTxSraQD8d4NCSTdVX7i';
 
 export const DECIMALS = 12;

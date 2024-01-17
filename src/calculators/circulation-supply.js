@@ -14,6 +14,7 @@ import {
   DECIMALS,
   CB_COLD_WALLETS,
   TYAN,
+  CB_REWARDS
 } from '../consts.js';
 import { totalSupply } from './total-supply.js';
 
@@ -89,6 +90,7 @@ export async function circulationSupply() {
     TYAN,
     ...CUSTODY,
     ...CB_COLD_WALLETS,
+    CB_REWARDS
   ];
 
   const [supply, vesting, staking, pools] = await Promise.all([
@@ -98,7 +100,7 @@ export async function circulationSupply() {
     getBalances(addresses),
   ]);
 
-  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + staking;
+  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + staking + 160667000;
 
   return supply - total;
 }
