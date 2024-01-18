@@ -15,7 +15,7 @@ const app = express();
 
 app.use(cors());
 
-app.get('/api/burned', async (req, res) => {
+app.get('/api2/burned', async (req, res) => {
   tokensSentFromInflationPool()
     .then((result) => res.json(result))
     .catch((err) => {
@@ -24,7 +24,7 @@ app.get('/api/burned', async (req, res) => {
     });
 });
 
-app.get('/api/total', async (req, res) => {
+app.get('/api2/total', async (req, res) => {
   totalSupply()
     .then((result) => res.json(result))
     .catch((err) => {
@@ -33,7 +33,7 @@ app.get('/api/total', async (req, res) => {
     });
 });
 
-app.get('/api/total-staking', async (req, res) => {
+app.get('/api2/total-staking', async (req, res) => {
   totalStaking()
     .then((result) => res.json(result))
     .catch((err) => {
@@ -42,7 +42,7 @@ app.get('/api/total-staking', async (req, res) => {
     });
 });
 
-app.get('/api/total-vesting', async (req, res) => {
+app.get('/api2/total-vesting', async (req, res) => {
   totalVesting()
     .then((result) => res.json(result))
     .catch((err) => {
@@ -51,7 +51,7 @@ app.get('/api/total-vesting', async (req, res) => {
     });
 });
 
-app.get('/api/circulating-supply', async (req, res) => {
+app.get('/api2/circulating-supply', async (req, res) => {
   circulationSupply()
     .then((result) => res.json(result))
     .catch((err) => {
@@ -60,7 +60,7 @@ app.get('/api/circulating-supply', async (req, res) => {
     });
 });
 
-app.get('/api/roi', async (req, res) => {
+app.get('/api2/roi', async (req, res) => {
   stakingRoi()
     .then((result) => res.json(result))
     .catch((err) => {
