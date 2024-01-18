@@ -51,21 +51,11 @@ export async function totalVesting() {
 }
 
 export async function totalStaking() {
-  const prefix = api.query.balances.locks.keyPrefix();
-  const keys = await getKeys(prefix);
-  const allLocks = await api.rpc.state.queryStorageAt(keys);
+  const currentEra = (await api.query.staking.currentEra()).toHuman();
+  const staking = await api.query.staking.erasTotalStake(currentEra);
+  const total = staking.toBigInt() / BigInt(10 ** DECIMALS)
 
-  let total = BigInt(0);
-
-  for (const lock of allLocks) {
-    const withType = api.registry.createType('PalletBalancesBalanceLock', lock.toU8a().slice(2));
-
-    if (withType.id.toHex() == STAKING_HEX) {
-      total += withType.amount.toBigInt();
-    }
-  }
-  const totalStaking = total / BigInt(10 ** DECIMALS);
-  return Number(totalStaking);
+  return Number(total)
 }
 
 // Get all pool addresses
