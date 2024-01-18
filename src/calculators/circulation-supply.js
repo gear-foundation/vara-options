@@ -14,11 +14,10 @@ import {
   DECIMALS,
   CB_COLD_WALLETS,
   TYAN,
-  CB_REWARDS
+  CB_REWARDS,
+  DELTA
 } from '../consts.js';
 import { totalSupply } from './total-supply.js';
-
-const STAKING_HEX = '0x7374616b696e6720';
 
 async function getKeys(prefix, startKey = null) {
   const result = await api.rpc.state.getKeysPaged(prefix, 1000, startKey);
@@ -90,7 +89,7 @@ export async function circulationSupply() {
     getBalances(addresses),
   ]);
 
-  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + staking + 160667000;
+  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + staking + DELTA;
 
   return supply - total;
 }
