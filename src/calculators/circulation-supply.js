@@ -1,4 +1,5 @@
-import { api, getBalances } from '../node.js';
+import { api, deriveAddr, getBalances } from '../node.js';
+
 import {
   AIRDROP_POOL,
   DEVELOPER_PROJECTS_GRANTS_POOL,
@@ -49,30 +50,21 @@ export async function totalVesting() {
   return Number(totalVesting);
 }
 
-export async function totalStaking() {
-  const currentEra = (await api.query.staking.currentEra()).toHuman();
-  const staking = await api.query.staking.erasTotalStake(currentEra);
-  const total = staking.toBigInt() / BigInt(10 ** DECIMALS)
-
-  return Number(total)
+// Each pool additionally has 10 or 15 derived accounts (indexes from 1 to 15)
+function getPoolAddresses(poolAddr, index) {
+  return [poolAddr, ...deriveAddr(poolAddr, index)];
 }
 
-// Get all pool addresses
-// Each pool additionally has 10 derived accounts (indexes from 1 to 10)
-// function getPoolAddresses(poolAddr) {
-//   return [poolAddr, ...deriveAddr(poolAddr)];
-// }
-
-// Circulation Supply = Total Supply - (Vesting + Staking + Pools);
+// Circulation Supply = Total Supply - (Vesting + Pools);
 export async function circulationSupply() {
   const addresses = [
-    EDUCATION_BOOTCAMP_PR_EVENT_POOL,
-    PROTOCOL_RESERVE_POOL,
-    FOUNDATION_AND_ECOSYSTEM_DEVELOPMENT_POOL,
-    PROTOCOL_DEVELOPMENT_POOL,
-    VALIDATOR_INCENTIVES_POOL,
-    DEVELOPER_PROJECTS_GRANTS_POOL,
-    AIRDROP_POOL,
+    ...getPoolAddresses(EDUCATION_BOOTCAMP_PR_EVENT_POOL, 15),
+    ...getPoolAddresses(PROTOCOL_RESERVE_POOL),
+    ...getPoolAddresses(FOUNDATION_AND_ECOSYSTEM_DEVELOPMENT_POOL),
+    ...getPoolAddresses(PROTOCOL_DEVELOPMENT_POOL, 15),
+    ...getPoolAddresses(VALIDATOR_INCENTIVES_POOL, 12),
+    ...getPoolAddresses(DEVELOPER_PROJECTS_GRANTS_POOL, 15),
+    ...getPoolAddresses(AIRDROP_POOL),
     MARKET_POOL,
     AIRDROP_3RD_PARTY_1,
     INFLATION_OFFSETTING_POOL,
@@ -82,14 +74,13 @@ export async function circulationSupply() {
     CB_REWARDS
   ];
 
-  const [supply, vesting, staking, pools] = await Promise.all([
+  const [supply, vesting, pools] = await Promise.all([
     totalSupply(),
     totalVesting(),
-    totalStaking(),
     getBalances(addresses),
   ]);
 
-  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + staking + DELTA;
+  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + DELTA;
 
   return supply - total;
 }
