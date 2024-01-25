@@ -36,8 +36,6 @@ export const CB_COLD_WALLETS = [
 
 export const CB_REWARDS = 'kGgH6TyfMQmjVLoDxTXUEjnYoa63eBwLK9D8XM2PtZ8tr6KND';
 
-export const TYAN = 'kGgYvzyAgbd9j7QvLQ3iEyuWEJYZroTxSraQD8d4NCSTdVX7i';
-
 export const DELTA = 160667000;
 
 export const DECIMALS = 12;

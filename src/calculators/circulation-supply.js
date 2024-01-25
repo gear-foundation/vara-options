@@ -14,7 +14,6 @@ import {
   AIRDROP_3RD_PARTY_1,
   DECIMALS,
   CB_COLD_WALLETS,
-  TYAN,
   CB_REWARDS,
   DELTA
 } from '../consts.js';
@@ -68,7 +67,6 @@ export async function circulationSupply() {
     MARKET_POOL,
     AIRDROP_3RD_PARTY_1,
     INFLATION_OFFSETTING_POOL,
-    TYAN,
     ...CUSTODY,
     ...CB_COLD_WALLETS,
     CB_REWARDS
