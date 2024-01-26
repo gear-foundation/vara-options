@@ -5,7 +5,7 @@ import config from './config.js';
 
 const provider = new WsProvider(config.network.addresses, 10000);
 
-export const api = new ApiPromise({ provider });
+export let api = new ApiPromise({ provider });
 
 export async function connect() {
   await api.isReadyOrError;
