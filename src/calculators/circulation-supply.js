@@ -15,7 +15,9 @@ import {
   DECIMALS,
   CB_COLD_WALLETS,
   CB_REWARDS,
-  DELTA
+  DELTA,
+  GEAR_FOUNDATION_V,
+  GEAR_TECH_V
 } from '../consts.js';
 import { totalSupply } from './total-supply.js';
 
@@ -69,7 +71,9 @@ export async function circulationSupply() {
     INFLATION_OFFSETTING_POOL,
     ...CUSTODY,
     ...CB_COLD_WALLETS,
-    CB_REWARDS
+    CB_REWARDS,
+    GEAR_TECH_V,
+    GEAR_FOUNDATION_V
   ];
 
   const [supply, vesting, pools] = await Promise.all([
