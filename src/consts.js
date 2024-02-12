@@ -11,6 +11,7 @@ export const MARKET_POOL = 'kGmHNw32YQrY9SFArgjFKgrgysZN13Th29ZPoPT6hJ7uhhtrs';
 export const INITIAL_BALANCE_INFLATION_OFFSETTING_POOL = 1_000_000_000;
 
 export const AIRDROP_3RD_PARTY_1 = 'kGfgqjRznfuto8Q7oxAine8ZFjDCkpcYB6XVcNCw5QHw1z6xd';
+export const COMMUNITY_AIRDROP_2 = 'kGgmH1HoD2qkwGN3uG17eG5ND3tgQTWS3MpTsF9yVzY4KVAAL';
 
 // Custody accounts
 
@@ -36,7 +37,7 @@ export const CB_COLD_WALLETS = [
 
 export const CB_REWARDS = 'kGgH6TyfMQmjVLoDxTXUEjnYoa63eBwLK9D8XM2PtZ8tr6KND';
 
-export const DELTA = 160667000;
+export const DELTA = 132000000;
 
 export const GEAR_FOUNDATION_V = 'kGiKi96jKfPzvvBCuPbBQeBNrUV5nNUVBxTeGJ5hgs3R3Di5e';
 export const GEAR_TECH_V = 'kGhYV2BWXtbspqGFhzhkx7Pur2Y7TWtaU9yPa8atXpMt33ExK';
