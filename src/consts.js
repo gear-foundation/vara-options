@@ -37,9 +37,11 @@ export const CB_COLD_WALLETS = [
 
 export const CB_REWARDS = 'kGgH6TyfMQmjVLoDxTXUEjnYoa63eBwLK9D8XM2PtZ8tr6KND';
 
+// Undistributed community airdrop
 export const DELTA = 132000000;
 
 export const GEAR_FOUNDATION_V = 'kGiKi96jKfPzvvBCuPbBQeBNrUV5nNUVBxTeGJ5hgs3R3Di5e';
 export const GEAR_TECH_V = 'kGhYV2BWXtbspqGFhzhkx7Pur2Y7TWtaU9yPa8atXpMt33ExK';
+export const REWARD_DISTRIBUTION_MULTISIG = 'kGjbw9qJBN7PMHxFonwpMig3obvbPLqyf8fp4L7CRn8HjXXfk';
 
 export const DECIMALS = 12;

@@ -18,7 +18,8 @@ import {
   CB_REWARDS,
   DELTA,
   GEAR_FOUNDATION_V,
-  GEAR_TECH_V
+  GEAR_TECH_V,
+  REWARD_DISTRIBUTION_MULTISIG
 } from '../consts.js';
 import { totalSupply } from './total-supply.js';
 
@@ -75,7 +76,8 @@ export async function circulationSupply() {
     ...CB_COLD_WALLETS,
     CB_REWARDS,
     GEAR_TECH_V,
-    GEAR_FOUNDATION_V
+    GEAR_FOUNDATION_V,
+    REWARD_DISTRIBUTION_MULTISIG
   ];
 
   const [supply, vesting, pools] = await Promise.all([
