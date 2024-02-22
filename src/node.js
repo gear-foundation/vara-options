@@ -27,9 +27,9 @@ export async function getBalances(addresses) {
   return result;
 }
 
-export const deriveAddr = (addr) => {
+export const deriveAddr = (addr, deriveCount = 10) => {
   const accounts = [];
-  for (let deriveIndex = 1; deriveIndex <= 10; deriveIndex++) {
+  for (let deriveIndex = 1; deriveIndex <= deriveCount; deriveIndex++) {
     accounts.push(encodeAddress(encodeDerivedAddress(addr, deriveIndex), 137));
   }
   return accounts;

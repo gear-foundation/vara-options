@@ -5,7 +5,6 @@ import config from './config.js';
 import {
   circulationSupply,
   tokensSentFromInflationPool,
-  totalStaking,
   totalSupply,
   totalVesting,
   stakingRoi
