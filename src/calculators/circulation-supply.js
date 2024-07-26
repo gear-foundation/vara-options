@@ -76,6 +76,7 @@ export async function circulationSupply() {
     ...CB_COLD_WALLETS,
     CB_REWARDS,
     GEAR_TECH_V,
+    ADDRESS_NEW,
     GEAR_FOUNDATION_V,
     REWARD_DISTRIBUTION_MULTISIG
   ];
