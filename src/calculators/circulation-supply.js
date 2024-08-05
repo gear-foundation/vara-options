@@ -19,7 +19,8 @@ import {
   DELTA,
   GEAR_FOUNDATION_V,
   GEAR_TECH_V,
-  REWARD_DISTRIBUTION_MULTISIG
+  REWARD_DISTRIBUTION_MULTISIG,
+  DAPPLOCKER_VALIDATOR
 } from '../consts.js';
 import { totalSupply } from './total-supply.js';
 
@@ -76,7 +77,7 @@ export async function circulationSupply() {
     ...CB_COLD_WALLETS,
     CB_REWARDS,
     GEAR_TECH_V,
-    ADDRESS_NEW,
+    DAPPLOCKER_VALIDATOR,
     GEAR_FOUNDATION_V,
     REWARD_DISTRIBUTION_MULTISIG
   ];

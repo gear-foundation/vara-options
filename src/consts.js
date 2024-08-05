@@ -43,6 +43,6 @@ export const DELTA = 41780000;
 export const GEAR_FOUNDATION_V = 'kGiKi96jKfPzvvBCuPbBQeBNrUV5nNUVBxTeGJ5hgs3R3Di5e';
 export const GEAR_TECH_V = 'kGhYV2BWXtbspqGFhzhkx7Pur2Y7TWtaU9yPa8atXpMt33ExK';
 export const REWARD_DISTRIBUTION_MULTISIG = 'kGjbw9qJBN7PMHxFonwpMig3obvbPLqyf8fp4L7CRn8HjXXfk';
-export const ADDRESS_NEW = 'kGjXaAa8ChY2PMfHwe2KMo5D4AJSnUZ38bzwUwcUfK9xZkt7u'
+export const DAPPLOCKER_VALIDATOR = 'kGjXaAa8ChY2PMfHwe2KMo5D4AJSnUZ38bzwUwcUfK9xZkt7u';
 
 export const DECIMALS = 12;
