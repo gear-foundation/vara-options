@@ -20,7 +20,8 @@ import {
   GEAR_FOUNDATION_V,
   GEAR_TECH_V,
   REWARD_DISTRIBUTION_MULTISIG,
-  DAPPLOCKER_VALIDATOR
+  DAPPLOCKER_VALIDATOR,
+  COMMUNITY_AIRDROP_3
 } from '../consts.js';
 import { totalSupply } from './total-supply.js';
 
@@ -79,7 +80,8 @@ export async function circulationSupply() {
     GEAR_TECH_V,
     DAPPLOCKER_VALIDATOR,
     GEAR_FOUNDATION_V,
-    REWARD_DISTRIBUTION_MULTISIG
+    REWARD_DISTRIBUTION_MULTISIG,
+    COMMUNITY_AIRDROP_3
   ];
 
   const [supply, vesting, pools] = await Promise.all([
