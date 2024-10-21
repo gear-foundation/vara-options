@@ -16,7 +16,6 @@ import {
   DECIMALS,
   CB_COLD_WALLETS,
   CB_REWARDS,
-  DELTA,
   GEAR_FOUNDATION_V,
   GEAR_TECH_V,
   REWARD_DISTRIBUTION_MULTISIG,
@@ -90,7 +89,7 @@ export async function circulationSupply() {
     getBalances(addresses),
   ]);
 
-  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting + DELTA;
+  const total = pools.reduce((accumulator, current) => accumulator + current, 0) + vesting;
 
   return supply - total;
 }
