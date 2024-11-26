@@ -35,6 +35,8 @@ async function getKeys(prefix, startKey = null) {
 
 // Get all vested tokens from the chain
 export async function totalVesting() {
+  const lastBlockResult  = await api.rpc.chain.getBlock();
+  const lastBlockNumber = lastBlockResult.block.header.number.toBigInt();
   const prefix = api.query.vesting.vesting.keyPrefix();
   const keys = await getKeys(prefix);
 
@@ -47,8 +49,15 @@ export async function totalVesting() {
     if (withType.isNone) {
       continue;
     }
+
+    // unlocked info
+    const perBlock = withType.unwrap()[0].perBlock.toBigInt();
+    const startingBlock = withType.unwrap()[0].startingBlock.toBigInt();
+    const blocksDiff = lastBlockNumber - startingBlock;
+    const unlocked = perBlock * blocksDiff;
+
     const locked = withType.unwrap()[0].locked.toBigInt();
-    result += locked;
+    result += locked - unlocked;
   }
   const totalVesting = result / BigInt(10 ** DECIMALS);
   return Number(totalVesting);
