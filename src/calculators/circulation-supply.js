@@ -35,10 +35,9 @@ async function getKeys(prefix, startKey = null) {
 
 // Get all vested tokens from the chain
 export async function totalVesting() {
-  const lastBlockResult  = await api.rpc.chain.getBlock();
-  const lastBlockNumber = lastBlockResult.block.header.number.toBigInt();
   const prefix = api.query.vesting.vesting.keyPrefix();
-  const keys = await getKeys(prefix);
+  const [lastBlockResult, keys] = await Promise.all([api.rpc.chain.getBlock(), getKeys(prefix)]);
+  const lastBlockNumber = lastBlockResult.block.header.number.toBigInt();
 
   const query = await api.rpc.state.queryStorageAt(keys);
 
