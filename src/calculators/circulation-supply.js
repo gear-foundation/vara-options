@@ -50,12 +50,10 @@ export async function totalVesting() {
     }
 
     // unlocked info
-    const perBlock = withType.unwrap()[0].perBlock.toBigInt();
-    const startingBlock = withType.unwrap()[0].startingBlock.toBigInt();
-    const blocksDiff = lastBlockNumber - startingBlock;
-    const unlocked = perBlock * blocksDiff;
-
-    const locked = withType.unwrap()[0].locked.toBigInt();
+    const { perBlock, startingBlock, locked } = withType.unwrap()[0];
+    const blocksDiff = lastBlockNumber - startingBlock.toBigInt();
+    const unlocked = perBlock.toBigInt() * blocksDiff;
+    result += locked.toBigInt() - unlocked;
     result += locked - unlocked;
   }
   const totalVesting = result / BigInt(10 ** DECIMALS);
