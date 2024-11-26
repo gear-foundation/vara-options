@@ -54,7 +54,6 @@ export async function totalVesting() {
     const blocksDiff = lastBlockNumber - startingBlock.toBigInt();
     const unlocked = perBlock.toBigInt() * blocksDiff;
     result += locked.toBigInt() - unlocked;
-    result += locked - unlocked;
   }
   const totalVesting = result / BigInt(10 ** DECIMALS);
   return Number(totalVesting);
