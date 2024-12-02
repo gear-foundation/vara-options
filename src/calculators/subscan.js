@@ -98,7 +98,7 @@ export async function getUnvested() {
   lastUpdated = new Date();
   cachedValue = unvested;
   console.log('unvested: ', unvested);
-  minBlock = lastBlockNumber + 1;
+  minBlock = Number(lastBlockNumber) + 1;
   return unvested;
 }
 
