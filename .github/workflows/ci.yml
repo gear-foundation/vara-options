@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["master"]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SUBSCAN_KEY: ${{ secrets.SUBSCAN_KEY }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: "Install: NodeJS 20.x"
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: "Install: pkg dependencies"
+        run: yarn install
+
+      - name: "Run server"
+        env:
+          SUBSCAN_KEY: ${{ secrets.SUBSCAN_KEY }}
+          NETWORK_ADDRESSES: "wss://rpc.vara.network"
+        run: nohup yarn start &
+
+      - name: "Run tests"
+        run: yarn test
