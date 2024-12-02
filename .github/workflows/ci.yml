@@ -30,7 +30,7 @@ jobs:
       - name: "Run server"
         env:
           SUBSCAN_KEY: ${{ secrets.SUBSCAN_KEY }}
-          NETWORK_ADDRESSES: "https://rpc.vara.network"
+          NETWORK_ADDRESSES: "wss://rpc.vara.network"
         run: yarn start
 
       - name: "Run tests"
