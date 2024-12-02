@@ -22,7 +22,7 @@ function getVestExtrinsicPaginated(page, lastBlockNumber, type) {
     body: JSON.stringify({
       "module": "vesting",
       "call": type,
-      "block_range": `${MIN_BLOCK}-${lastBlockNumber}`,
+      "block_range": `${minBlock}-${lastBlockNumber}`,
       "row": PAGE_ROWS,
       "page": page,
     })
