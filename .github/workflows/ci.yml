@@ -11,7 +11,6 @@ concurrency:
 
 env:
   SUBSCAN_KEY: ${{ secrets.SUBSCAN_KEY }}
-  NETWORK_ADDRESSES: "https://rpc.vara.network"
 
 jobs:
   test:
@@ -29,6 +28,9 @@ jobs:
         run: yarn install
 
       - name: "Run server"
+        env:
+          SUBSCAN_KEY: ${{ secrets.SUBSCAN_KEY }}
+          NETWORK_ADDRESSES: "https://rpc.vara.network"
         run: yarn start
 
       - name: "Run tests"
