@@ -88,7 +88,7 @@ async function getExchangeAddresses(lastBlockNumber) {
 }
 
 export async function getUnvested() {
-  if (cachedValue > 0) {
+  if (cachedValue > 0n) {
     return cachedValue;
   }
   const lastBlockResult = await api.rpc.chain.getBlock()
