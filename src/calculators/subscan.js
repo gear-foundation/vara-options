@@ -11,8 +11,8 @@ const HEADERS = {
   'x-api-key': config.subscan.apiKey,
 };
 
-let minBlock = 15800000;
-let cachedValue = 0n;
+let minBlock = 17827639;
+let cachedValue = 184056079261254986960n;
 let lastUpdated = undefined;
 
 const exchangeAddresses = [
@@ -134,7 +134,7 @@ async function updateUnvested() {
   unvested += await getExchangeAddresses(lastBlockNumber);
   lastUpdated = new Date();
   cachedValue = unvested;
-  console.log('unvested: ', unvested);
+  console.log(`unvested for blockNumber ${lastBlockNumber}: `, unvested);
   minBlock = Number(lastBlockNumber) + 1;
   return unvested;
 }
