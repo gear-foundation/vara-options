@@ -2,7 +2,6 @@ import config from "../config.js";
 import {api} from "../node.js";
 
 const SUBSCAN_URL = 'https://vara.api.subscan.io'
-const MIN_BLOCK = 15800000
 const ONE_HOUR = 60 * 60 * 1000;
 const PAGE_ROWS = 100;
 
@@ -12,6 +11,7 @@ const HEADERS = {
   'x-api-key': config.subscan.apiKey,
 };
 
+let minBlock = 15800000
 let cachedValue = 0n;
 let lastUpdated = undefined;
 
@@ -65,7 +65,7 @@ export async function getUnvested() {
       getVestExtrinsic("vest", lastBlockNumber),
       getVestExtrinsic("vest_other", lastBlockNumber),
     ]).then(res => res.flat());
-  let unvested = 0n;
+  let unvested = cachedValue;
   console.log('found extrinsics: ', extrinsics.length);
   for (const extrinsicIndex of extrinsics) {
 
@@ -98,6 +98,7 @@ export async function getUnvested() {
   lastUpdated = new Date();
   cachedValue = unvested;
   console.log('unvested: ', unvested);
+  minBlock = lastBlockNumber + 1;
   return unvested;
 }
 
