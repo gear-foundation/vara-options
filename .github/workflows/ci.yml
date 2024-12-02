@@ -11,6 +11,7 @@ concurrency:
 
 env:
   SUBSCAN_KEY: ${{ secrets.SUBSCAN_KEY }}
+  NETWORK_ADDRESSES: "https://rpc.vara.network"
 
 jobs:
   test:
