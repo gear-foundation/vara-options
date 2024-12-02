@@ -15,13 +15,13 @@ const HEADERS = {
 let cachedValue = 0n;
 let lastUpdated = undefined;
 
-function getUnlockedEvents(page, lastBlockNumber) {
-  return fetch(`${SUBSCAN_URL}/api/v2/scan/events`, {
+function getVestExtrinsicPaginated(page, lastBlockNumber, type) {
+  return fetch(`${SUBSCAN_URL}/api/v2/scan/extrinsics`, {
     method: 'POST',
     headers: HEADERS,
     body: JSON.stringify({
-      "module": "Balances",
-      "event_id": "unlocked",
+      "module": "vesting",
+      "call": type,
       "block_range": `${MIN_BLOCK}-${lastBlockNumber}`,
       "row": PAGE_ROWS,
       "page": page,
@@ -42,37 +42,54 @@ function getUnlockedEvents(page, lastBlockNumber) {
     });
 }
 
+async function getVestExtrinsic(type, lastBlockNumber) {
+  let page = 0;
+  let extrinsics = [];
+  let res = await getVestExtrinsicPaginated(page, lastBlockNumber, type);
+  while (res.data?.extrinsics?.length > 0) {
+    extrinsics.push(...res.data.extrinsics.map(s => s.extrinsic_index));
+    page++;
+    res = await getVestExtrinsicPaginated(page, lastBlockNumber, type);
+  }
+  return extrinsics;
+}
+
 export async function getUnvested() {
   if (lastUpdated && lastUpdated.getTime() + ONE_HOUR > Date.now()) {
     return cachedValue;
   }
   const lastBlockResult = await api.rpc.chain.getBlock()
   const lastBlockNumber = lastBlockResult.block.header.number.toBigInt();
-  const events = [];
-  let page = 0;
-  let res = await getUnlockedEvents(page, lastBlockNumber);
-  while (res.data?.data?.events?.length > 0) {
-    events.push(...res.data.data.events.map(s => s.event_index));
-    page++;
-    res = await getUnlockedEvents(page, lastBlockNumber);
-    await new Promise(resolve => setTimeout(resolve, 50))
-  }
+  const extrinsics = await Promise.all(
+    [
+      getVestExtrinsic("vest", lastBlockNumber),
+      getVestExtrinsic("vest_other", lastBlockNumber),
+    ]).then(res => res.flat());
   let unvested = 0n;
-  console.log('found events: ', events.length);
-  for (const eventIndex of events) {
+  console.log('found extrinsics: ', extrinsics.length);
+  for (const extrinsicIndex of extrinsics) {
     await new Promise(resolve => setTimeout(resolve, 50))
     try {
-      const eventRes = await fetch(`${SUBSCAN_URL}/api/scan/event`, {
+      const extrinsicRes = await fetch(`${SUBSCAN_URL}/api/scan/extrinsic`, {
         method: 'POST',
         headers: HEADERS,
         body: JSON.stringify({
-          "event_index": eventIndex,
+          "extrinsic_index": extrinsicIndex,
         }),
       }).then(response => response.json());
-      const params = eventRes.data.data.params;
-      const unvestedParams = params.filter(p => p.name === "amount");
-      for (let un of unvestedParams) {
-        unvested += BigInt(un.value)
+      const vestingEvents = extrinsicRes.data?.event?.filter(e => {
+        return e.module_id?.toLowerCase() === 'balances' && e.event_id?.toLowerCase() === 'unlocked';
+      }) ?? [];
+      for (let e of vestingEvents) {
+        try {
+          const params = JSON.parse(e.params) ?? [];
+          const unvestedParams = params.filter(p => p.name === "amount");
+          for (let un of unvestedParams) {
+            unvested += BigInt(un.value)
+          }
+        } catch (e) {
+          console.error(`failed to calculate unvested because of`, e);
+        }
       }
     } catch (e) {
       console.error(`failed to calculate unvested because of`, e.data);
@@ -80,9 +97,9 @@ export async function getUnvested() {
   }
   lastUpdated = new Date();
   cachedValue = unvested;
+  console.log('unvested: ', unvested);
   return unvested;
 }
 
-
 // to get cached value as soon as the server starts
-setTimeout(() => getUnvested(), 30000);
+setTimeout(() => getUnvested(), 10000);
