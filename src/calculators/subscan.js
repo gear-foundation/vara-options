@@ -68,7 +68,7 @@ export async function getUnvested() {
   let unvested = 0n;
   console.log('found extrinsics: ', extrinsics.length);
   for (const extrinsicIndex of extrinsics) {
-    await new Promise(resolve => setTimeout(resolve, 50))
+
     try {
       const extrinsicRes = await fetch(`${SUBSCAN_URL}/api/scan/extrinsic`, {
         method: 'POST',
