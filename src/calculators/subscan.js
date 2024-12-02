@@ -91,6 +91,10 @@ export async function getUnvested() {
   if (cachedValue > 0n) {
     return cachedValue;
   }
+  return updateUnvested();
+}
+
+async function updateUnvested() {
   const lastBlockResult = await api.rpc.chain.getBlock()
   const lastBlockNumber = lastBlockResult.block.header.number.toBigInt();
   const extrinsics = await Promise.all(
@@ -136,5 +140,5 @@ export async function getUnvested() {
 }
 
 // to get cached value as soon as the server starts
-setTimeout(() => getUnvested(), 10000);
-setInterval(() => getUnvested(), ONE_HOUR);
+setTimeout(() => updateUnvested(), 10000);
+setInterval(() => updateUnvested(), ONE_HOUR);
