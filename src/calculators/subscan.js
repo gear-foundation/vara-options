@@ -11,9 +11,22 @@ const HEADERS = {
   'x-api-key': config.subscan.apiKey,
 };
 
-let minBlock = 15800000
+let minBlock = 15800000;
 let cachedValue = 0n;
 let lastUpdated = undefined;
+
+const exchangeAddresses = [
+  'kGjj96gJyxuPpG2BekrcaAMBHwfHrArzv9a2urP5GfpLoAoqu',
+  'kGhBnmPPy7yyyDG7ixg4JVsuMmGTt7wsKYstmUhRB4RkK1ZRq',
+  'kGkfMUpUwQ99tP3Swu1zen5gU44Yf5NjK1xSsnwi5CRaik8Kz',
+  'kGiGZ5Sa6hrxiZxZ8xD95thnnkdtfK9yy54NB7Ad4oF8DzyLp',
+  'kGjd29r3qa9rnUQSGYHh3TiFqu8tYv6FX5am6nQ5pMRirwm7d',
+  'kGi7MJ14UdQZx9bqXZ41NC5j21iBNNCTM2wgdMMKAHkCjtFeG',
+  'kGhKd4t4oSpH8KpiTYcx1NSVvvRf2bSz16z3yVaYfNYfdcYba',
+  'kGgvxgM2sJF7fWUze3fNWBWzy5momsyna7XF8MFzAWPhj2WpU',
+  'kGiVY7G1mJkqaAjKzLnRmwCy5GcvuGQvG5mUtojhVHdLfBd1P',
+  'kGga7DgxzLLTqn9WjtEZW5pkxYVnBPS4Rt6xK3Adqs1iKN42z',
+]
 
 function getVestExtrinsicPaginated(page, lastBlockNumber, type) {
   return fetch(`${SUBSCAN_URL}/api/v2/scan/extrinsics`, {
@@ -30,15 +43,10 @@ function getVestExtrinsicPaginated(page, lastBlockNumber, type) {
     .then(response => {
       if (!response.ok) {
         return response.json().then(err => {
-          console.error(err);
           throw err;
         });
       }
       return response.json();
-    })
-    .catch(err => {
-      console.error(err);
-      throw err;
     });
 }
 
@@ -52,6 +60,31 @@ async function getVestExtrinsic(type, lastBlockNumber) {
     res = await getVestExtrinsicPaginated(page, lastBlockNumber, type);
   }
   return extrinsics;
+}
+
+async function getExchangeAddresses(lastBlockNumber) {
+  let sum = 0n;
+  for (let address of exchangeAddresses) {
+    const res = await fetch(`${SUBSCAN_URL}/api/v2/scan/transfers`, {
+      method: 'POST',
+      headers: HEADERS,
+      body: JSON.stringify({
+        "address": address,
+        "direction": "all",
+        "order": "asc",
+        "include_total": true,
+        "page": 0,
+        "row": 1,
+        "block_range": `${minBlock}-${lastBlockNumber}`,
+        "success": true,
+        "token_category": [
+          "native"
+        ]
+      })
+    }).then(response => response.json());
+    sum += BigInt(res?.data?.total?.VARA?.sent ?? 0n);
+  }
+  return sum;
 }
 
 export async function getUnvested() {
@@ -68,7 +101,6 @@ export async function getUnvested() {
   let unvested = cachedValue;
   console.log('found extrinsics: ', extrinsics.length);
   for (const extrinsicIndex of extrinsics) {
-
     try {
       const extrinsicRes = await fetch(`${SUBSCAN_URL}/api/scan/extrinsic`, {
         method: 'POST',
@@ -95,6 +127,7 @@ export async function getUnvested() {
       console.error(`failed to calculate unvested because of`, e.data);
     }
   }
+  unvested += await getExchangeAddresses(lastBlockNumber);
   lastUpdated = new Date();
   cachedValue = unvested;
   console.log('unvested: ', unvested);
@@ -103,4 +136,5 @@ export async function getUnvested() {
 }
 
 // to get cached value as soon as the server starts
-setTimeout(() => getUnvested(), 30000);
+setTimeout(() => getUnvested(), 10000);
+setInterval(() => getUnvested(), ONE_HOUR);
