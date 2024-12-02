@@ -23,6 +23,7 @@ import {
   COMMUNITY_AIRDROP_3
 } from '../consts.js';
 import { totalSupply } from './total-supply.js';
+import {getUnvested} from "./subscan.js";
 
 async function getKeys(prefix, startKey = null) {
   const result = await api.rpc.state.getKeysPaged(prefix, 1000, startKey);
@@ -35,6 +36,7 @@ async function getKeys(prefix, startKey = null) {
 
 // Get all vested tokens from the chain
 export async function totalVesting() {
+  const unvested = await getUnvested();
   const prefix = api.query.vesting.vesting.keyPrefix();
   const keys = await getKeys(prefix);
 
@@ -50,6 +52,7 @@ export async function totalVesting() {
     const locked = withType.unwrap()[0].locked.toBigInt();
     result += locked;
   }
+  result -= unvested;
   const totalVesting = result / BigInt(10 ** DECIMALS);
   return Number(totalVesting);
 }
