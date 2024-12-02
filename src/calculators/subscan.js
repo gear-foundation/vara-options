@@ -22,39 +22,44 @@ export async function getUnvested() {
   }
   const lastBlockResult = await api.rpc.chain.getBlock()
   const lastBlockNumber = lastBlockResult.block.header.number.toBigInt();
-  const extrinsics = [];
-  const getExtrinsics = page => {
-    return axios.post(`${SUBSCAN_URL}/api/v2/scan/extrinsics`, {
-      "module": "vesting",
-      "call": "vest",
+  const events = [];
+  const getEvents = page => {
+    return axios.post(`${SUBSCAN_URL}/api/v2/scan/events`, {
+      "module": "Balances",
+      "event_id": "unlocked",
       "block_range": `${MIN_BLOCK}-${lastBlockNumber}`,
       "row": PAGE_ROWS,
       "page": page,
-    }, {headers: HEADERS})
+    }, {headers: HEADERS}).catch(err => {
+      console.error(err.data);
+      throw err;
+    })
   }
   let page = 0;
-  let res = await getExtrinsics(page);
-  while (res.data?.data?.extrinsics?.length > 0) {
-    extrinsics.push(...res.data.data.extrinsics.map(s => s.extrinsic_index));
+  let res = await getEvents(page);
+  while (res.data?.data?.events?.length > 0) {
+    events.push(...res.data.data.events.map(s => s.event_index));
     page++;
-    res = await getExtrinsics(page);
+    res = await getEvents(page);
+    await new Promise(resolve => setTimeout(resolve, 50))
   }
   let unvested = 0n;
-  for (const extrinsicIndex of extrinsics) {
-    const extrinsicRes = await axios.post(`${SUBSCAN_URL}/api/scan/extrinsic`, {
-      "extrinsic_index": extrinsicIndex,
-    })
-    const vestingEvents = extrinsicRes.data.data?.event?.filter(e => e.module_id === 'vesting' && e.event_id === 'VestingUpdated') ?? [];
-    for (let e of vestingEvents) {
-      try {
-        const params = JSON.parse(e.params) ?? [];
-        const unvestedParams = params.filter(p => p.name === "unvested");
-        for (let un of unvestedParams) {
-          unvested += BigInt(un.value)
-        }
-      } catch (e) {
-        console.error(`failed to calculate unvested because of`, e);
+  console.log('found events: ', events.length);
+  let ind = 0;
+  for (const eventIndex of events) {
+    console.log(`fetching event ${eventIndex} ${ind++}/${events.length}`)
+    await new Promise(resolve => setTimeout(resolve, 50))
+    try {
+      const eventRes = await axios.post(`${SUBSCAN_URL}/api/scan/event`, {
+        "event_index": eventIndex,
+      })
+      const params = eventRes.data.data.params;
+      const unvestedParams = params.filter(p => p.name === "amount");
+      for (let un of unvestedParams) {
+        unvested += BigInt(un.value)
       }
+    } catch (e) {
+      console.error(`failed to calculate unvested because of`, e.data);
     }
   }
   lastUpdated = new Date();
