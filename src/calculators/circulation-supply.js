@@ -38,7 +38,8 @@ async function getKeys(prefix, startKey = null) {
 export async function totalVesting() {
   const unvested = await getUnvested();
   const prefix = api.query.vesting.vesting.keyPrefix();
-  const keys = await getKeys(prefix);
+  const [lastBlockResult, keys] = await Promise.all([api.rpc.chain.getBlock(), getKeys(prefix)]);
+  const lastBlockNumber = lastBlockResult.block.header.number.toBigInt();
 
   const query = await api.rpc.state.queryStorageAt(keys);
 
@@ -49,8 +50,12 @@ export async function totalVesting() {
     if (withType.isNone) {
       continue;
     }
-    const locked = withType.unwrap()[0].locked.toBigInt();
-    result += locked;
+
+    // unlocked info
+    const { perBlock, startingBlock, locked } = withType.unwrap()[0];
+    const blocksDiff = lastBlockNumber - startingBlock.toBigInt();
+    const unlocked = perBlock.toBigInt() * blocksDiff;
+    result += locked.toBigInt() - unlocked;
   }
   result -= unvested;
   const totalVesting = result / BigInt(10 ** DECIMALS);
