@@ -7,7 +7,7 @@ import {
   tokensSentFromInflationPool,
   totalSupply,
   totalVesting,
-  stakingRoi
+  stakingRoi,
 } from './calculators/index.js';
 
 const app = express();
@@ -32,14 +32,14 @@ app.get('/api/total', async (req, res) => {
     });
 });
 
-app.get('/api/total-staking', async (req, res) => {
-  totalStaking()
-    .then((result) => res.json(result))
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
-});
+// app.get('/api/total-staking', async (req, res) => {
+//   totalStaking()
+//     .then((result) => res.json(result))
+//     .catch((err) => {
+//       console.error(err);
+//       res.sendStatus(500);
+//     });
+// });
 
 app.get('/api/total-vesting', async (req, res) => {
   totalVesting()
