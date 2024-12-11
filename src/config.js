@@ -18,7 +18,4 @@ export default {
   server: {
     port: Number(getEnv('PORT', '3000')),
   },
-  subscan: {
-    apiKey: getEnv('SUBSCAN_KEY'),
-  },
 };
