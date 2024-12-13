@@ -120,7 +120,11 @@ function getPoolAddresses(poolAddr, index) {
 function coinbaseSupply() {
   const today = new Date();
   const startDate = new Date('2024-09-12');
-  const monthsPassed = (today.getFullYear() - startDate.getFullYear()) * 12 + (today.getMonth() - startDate.getMonth());
+  const month = today.getDate() < 12 ? today.getMonth() - 1 : today.getMonth();
+  const effectiveDate = new Date(today.getFullYear(), month, 12);
+  const yearsDiff = effectiveDate.getFullYear() - startDate.getFullYear();
+  const monthsDiff = effectiveDate.getMonth() - startDate.getMonth();
+  const monthsPassed = yearsDiff * 12 + monthsDiff;
 
   let totalUnlocked = 0;
 
