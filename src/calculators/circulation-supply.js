@@ -26,53 +26,63 @@ import {totalSupply} from './total-supply.js';
 
 const CoinbaseAddresses = [
   {
-    hash: 'kGjj96gJyxuPpG2BekrcaAMBHwfHrArzv9a2urP5GfpLoAoqu',
+    address: 'kGjj96gJyxuPpG2BekrcaAMBHwfHrArzv9a2urP5GfpLoAoqu',
     initialBalance: 96000000,
     months: 36,
   },
   {
-    hash: 'kGhBnmPPy7yyyDG7ixg4JVsuMmGTt7wsKYstmUhRB4RkK1ZRq',
+    address: 'kGhBnmPPy7yyyDG7ixg4JVsuMmGTt7wsKYstmUhRB4RkK1ZRq',
     initialBalance: 200000000,
     months: 12,
   },
   {
-    hash: 'kGkfMUpUwQ99tP3Swu1zen5gU44Yf5NjK1xSsnwi5CRaik8Kz',
+    address: 'kGkfMUpUwQ99tP3Swu1zen5gU44Yf5NjK1xSsnwi5CRaik8Kz',
     initialBalance: 120000000,
     months: 12,
   },
   {
-    hash: 'kGiGZ5Sa6hrxiZxZ8xD95thnnkdtfK9yy54NB7Ad4oF8DzyLp',
+    address: 'kGiGZ5Sa6hrxiZxZ8xD95thnnkdtfK9yy54NB7Ad4oF8DzyLp',
     initialBalance: 80000000,
     months: 12,
   },
   {
-    hash: 'kGjd29r3qa9rnUQSGYHh3TiFqu8tYv6FX5am6nQ5pMRirwm7d',
+    address: 'kGjd29r3qa9rnUQSGYHh3TiFqu8tYv6FX5am6nQ5pMRirwm7d',
     initialBalance: 64000000,
     months: 12,
   },
   {
-    hash: 'kGi7MJ14UdQZx9bqXZ41NC5j21iBNNCTM2wgdMMKAHkCjtFeG',
+    address: 'kGi7MJ14UdQZx9bqXZ41NC5j21iBNNCTM2wgdMMKAHkCjtFeG',
     initialBalance: 45000000,
     months: 12,
   },
   {
-    hash: 'kGhKd4t4oSpH8KpiTYcx1NSVvvRf2bSz16z3yVaYfNYfdcYba',
+    address: 'kGhKd4t4oSpH8KpiTYcx1NSVvvRf2bSz16z3yVaYfNYfdcYba',
     initialBalance: 45000000,
     months: 12,
   },
   {
-    hash: 'kGgvxgM2sJF7fWUze3fNWBWzy5momsyna7XF8MFzAWPhj2WpU',
+    address: 'kGgvxgM2sJF7fWUze3fNWBWzy5momsyna7XF8MFzAWPhj2WpU',
     initialBalance: 45000000,
     months: 12,
   },
   {
-    hash: 'kGiVY7G1mJkqaAjKzLnRmwCy5GcvuGQvG5mUtojhVHdLfBd1P',
+    address: 'kGiVY7G1mJkqaAjKzLnRmwCy5GcvuGQvG5mUtojhVHdLfBd1P',
     initialBalance: 9000000,
     months: 12,
   },
   {
-    hash: 'kGga7DgxzLLTqn9WjtEZW5pkxYVnBPS4Rt6xK3Adqs1iKN42z',
+    address: 'kGga7DgxzLLTqn9WjtEZW5pkxYVnBPS4Rt6xK3Adqs1iKN42z',
     initialBalance: 9000000,
+    months: 12,
+  },
+  {
+    address: 'kGiMyAU72c7Wpa6w8z2XZRg8Gb73LZbCy19gGbmX4B2j8R6PA',
+    initialBalance: 25000000,
+    months: 12,
+  },
+  {
+    address: 'kGjR3zHw3fYvo6yvbTDtm7pdsN7RMTxVS5Z6hW16PA3pg4MUX',
+    initialBalance: 25000000,
     months: 12,
   }
 ]
