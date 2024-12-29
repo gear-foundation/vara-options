@@ -77,12 +77,12 @@ const CoinbaseAddresses = [
   },
   {
     address: 'kGiMyAU72c7Wpa6w8z2XZRg8Gb73LZbCy19gGbmX4B2j8R6PA',
-    initialBalance: 25000000,
+    initialBalance: 16000000,
     months: 12,
   },
   {
     address: 'kGjR3zHw3fYvo6yvbTDtm7pdsN7RMTxVS5Z6hW16PA3pg4MUX',
-    initialBalance: 25000000,
+    initialBalance: 9000000,
     months: 12,
   }
 ]
